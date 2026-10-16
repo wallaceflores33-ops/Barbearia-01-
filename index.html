@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Barbearia Exclusiva — Seu estilo, nossa paixão</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#15110f; --panel:#1d1613; --panel-2:#241c18; --panel-3:#2c221d;
+    --text:#f4efe9; --text-dim:#9c8f87; --line:#352a24;
+    --amber:#d49a52; --amber-soft:#e8c48c;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#15110f; --panel:#1d1613; --panel-2:#241c18; --panel-3:#2c221d; --text:#f4efe9; --text-dim:#9c8f87; --line:#352a24; --amber:#d49a52; --amber-soft:#e8c48c; }
+  }
+  :root[data-theme="dark"] { --bg:#15110f; --panel:#1d1613; --panel-2:#241c18; --panel-3:#2c221d; --text:#f4efe9; --text-dim:#9c8f87; --line:#352a24; --amber:#d49a52; --amber-soft:#e8c48c; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:'Mulish', system-ui, sans-serif; line-height:1.6; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); overflow-x:hidden; }
+  body::before { content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:60; background:var(--bg); }
+  h1,h2,h3 { font-family:'Fraunces', serif; font-weight:600; line-height:1.05; }
+  em { font-style:italic; color:var(--amber); font-weight:500; }
+  a { color:inherit; text-decoration:none; }
+  button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+  .wrap { max-width:1180px; margin:0 auto; padding:0 24px; }
+
+  header { position:sticky; top:env(safe-area-inset-top,0px); z-index:50; background:rgba(21,17,15,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  nav.wrap { display:flex; align-items:center; justify-content:space-between; height:78px; }
+  .logo-mark { display:flex; align-items:center; gap:10px; }
+  .logo-text { font-family:'Mulish'; font-weight:800; font-size:1.15rem; text-transform:uppercase; letter-spacing:0.02em; line-height:1.15; }
+  .logo-text span { display:block; font-weight:600; font-size:1rem; letter-spacing:0.14em; color:var(--text-dim); }
+  .nav-links { display:flex; gap:30px; font-size:0.85rem; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:0.03em; }
+  .nav-links a:hover { color:var(--amber); }
+  .nav-cta { border:1px solid var(--amber); color:var(--amber); padding:11px 22px; font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; display:flex; align-items:center; gap:8px; }
+  .nav-cta:hover { background:var(--amber); color:#15110f; }
+  .burger { display:none; width:26px; height:18px; position:relative; cursor:pointer; }
+  .burger span { position:absolute; left:0; width:100%; height:2px; background:var(--text); }
+  .burger span:nth-child(1){top:0;} .burger span:nth-child(2){top:8px;} .burger span:nth-child(3){top:16px;}
+
+  .hero { position:relative; padding:64px 0 0; overflow:hidden; }
+  .hero-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; min-height:440px; }
+  .hero-text { padding-right:40px; }
+  .kicker { font-size:0.82rem; color:var(--amber); text-transform:uppercase; letter-spacing:0.14em; font-weight:700; margin-bottom:18px; }
+  .hero h1 { font-size:clamp(2.6rem,5.5vw,3.8rem); }
+  .hero p.lead { color:var(--text-dim); max-width:40ch; margin:22px 0 30px; font-size:1.02rem; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:16px 30px; font-weight:700; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em; transition:transform .15s ease, background .15s ease; }
+  .btn-primary { background:var(--amber); color:#15110f; }
+  .btn-primary:hover { transform:translateY(-2px); background:var(--amber-soft); }
+  .btn-ghost { border:1px solid var(--line); color:var(--text); }
+  .btn-ghost:hover { border-color:var(--amber); color:var(--amber); }
+
+  /* photo-style illustration panel: duotone + grain, marked for real photo swap */
+  .hero-photo { position:relative; aspect-ratio:4/3.4; align-self:stretch; }
+  .photo-duo { position:absolute; inset:0; overflow:hidden; }
+  .photo-duo svg { width:100%; height:100%; display:block; }
+  .photo-note { position:absolute; bottom:10px; right:10px; font-size:0.62rem; color:rgba(244,239,233,0.4); background:rgba(0,0,0,0.4); padding:4px 8px; letter-spacing:0.03em; }
+
+  /* BOOKING CARD */
+  .booking-wrap { margin-top:-50px; position:relative; z-index:2; padding-bottom:60px; }
+  .booking { background:var(--panel-2); border:1px solid var(--line); border-radius:4px; padding:40px; }
+  .booking-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:28px; flex-wrap:wrap; gap:16px; }
+  .booking-top h2 { font-size:1.8rem; position:relative; padding-bottom:12px; }
+  .booking-top h2::after { content:""; position:absolute; bottom:0; left:0; width:46px; height:3px; background:var(--amber); }
+  .booking-meta { display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--text-dim); }
+  .booking-meta strong { display:block; color:var(--text); }
+  .booking-steps { display:flex; gap:28px; margin-bottom:30px; flex-wrap:wrap; }
+  .bstep { display:flex; align-items:center; gap:10px; }
+  .bstep .n { width:30px; height:30px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.85rem; color:var(--text-dim); flex-shrink:0; }
+  .bstep.active .n { background:var(--amber); color:#15110f; border-color:var(--amber); }
+  .bstep div p { font-weight:700; font-size:0.9rem; }
+  .bstep div span { font-size:0.76rem; color:var(--text-dim); }
+  .bstep.active div p { color:var(--amber); }
+
+  .booking-grid { display:grid; grid-template-columns: 1.1fr 1.1fr 1.3fr 1fr; gap:26px; }
+  .b-col h4 { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-dim); margin-bottom:14px; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .b-opt { display:flex; justify-content:space-between; align-items:center; width:100%; border:1px solid var(--line); background:var(--panel); padding:13px 14px; margin-bottom:9px; font-size:0.88rem; border-radius:3px; transition:border-color .15s ease, background .15s ease; }
+  .b-opt.sel, .b-opt:hover { border-color:var(--amber); background:rgba(212,154,82,0.08); }
+  .b-opt .check { width:18px; height:18px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .b-opt.sel .check { background:var(--amber); border-color:var(--amber); }
+  .b-opt .check svg { opacity:0; width:11px; height:11px; }
+  .b-opt.sel .check svg { opacity:1; }
+  .b-opt .name { display:flex; align-items:center; gap:10px; }
+  .b-opt .av { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg, var(--amber), var(--panel-3)); flex-shrink:0; }
+  .b-opt .p { color:var(--amber); font-weight:700; font-size:0.84rem; }
+  .b-opt .rating { font-size:0.78rem; color:var(--text-dim); }
+
+  .cal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:0.88rem; font-weight:700; }
+  .cal-head button { color:var(--text-dim); padding:4px; }
+  .cal-head button:hover { color:var(--amber); }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; font-size:0.72rem; text-align:center; margin-bottom:14px; }
+  .cal-grid .dow { color:var(--text-dim); padding-bottom:6px; font-weight:700; }
+  .cal-day { aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:50%; cursor:pointer; font-size:0.8rem; }
+  .cal-day:hover { background:var(--panel-3); }
+  .cal-day.sel { background:var(--amber); color:#15110f; font-weight:800; }
+  .cal-day.off { color:var(--text-dim); opacity:0.3; pointer-events:none; }
+  .time-label { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-dim); margin-bottom:10px; font-weight:700; }
+  .btimes { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+  .btime { border:1px solid var(--line); background:var(--panel); padding:9px 4px; text-align:center; font-size:0.78rem; border-radius:3px; }
+  .btime.sel, .btime:hover { border-color:var(--amber); background:rgba(212,154,82,0.08); }
+
+  .summary-box { background:var(--panel); border:1px solid var(--line); border-radius:3px; padding:20px; }
+  .sum-row { display:flex; justify-content:space-between; font-size:0.84rem; padding:10px 0; border-bottom:1px solid var(--line); }
+  .sum-row span:first-child { color:var(--text-dim); }
+  .sum-row.total { border-bottom:none; padding-top:16px; font-weight:800; font-size:1rem; }
+  .sum-row.total span:last-child { color:var(--amber); font-family:'Fraunces'; font-size:1.3rem; }
+  .booking-confirm { width:100%; margin-top:16px; justify-content:center; }
+  .secure-note { display:flex; align-items:center; gap:6px; font-size:0.74rem; color:var(--text-dim); margin-top:12px; justify-content:center; }
+  .secure-note svg { color:var(--amber); }
+
+  /* TRUST STRIP */
+  .trust { border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--panel); }
+  .trust .wrap { display:grid; grid-template-columns:repeat(4,1fr); padding:30px 24px; gap:10px; }
+  .trust-item { display:flex; gap:14px; align-items:flex-start; }
+  .trust-item svg { color:var(--amber); flex-shrink:0; }
+  .trust-item strong { display:block; font-size:0.94rem; }
+  .trust-item span { font-size:0.8rem; color:var(--text-dim); }
+
+  /* SERVICES PREVIEW */
+  .section { padding:88px 0; }
+  .section-head { text-align:center; max-width:50ch; margin:0 auto 50px; }
+  .section-head .kicker { justify-content:center; display:flex; }
+  .section-head h2 { font-size:clamp(2rem,4.5vw,2.8rem); }
+  .svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .svc-card { background:var(--panel-2); border:1px solid var(--line); padding:30px; border-radius:3px; opacity:0; transform:translateY(16px); }
+  .svc-card.in { opacity:1; transform:none; transition:opacity .55s ease, transform .55s ease; }
+  .svc-card .icon { width:48px; height:48px; border-radius:50%; background:rgba(212,154,82,0.12); display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--amber); }
+  .svc-card h3 { font-size:1.25rem; margin-bottom:8px; }
+  .svc-card p { color:var(--text-dim); font-size:0.88rem; margin-bottom:16px; }
+  .svc-card .p { font-family:'Fraunces'; color:var(--amber); font-size:1.2rem; }
+
+  /* ABOUT */
+  .about-band { background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  .about-visual { position:relative; aspect-ratio:4/5; }
+  .stat-row { display:flex; gap:34px; margin-top:30px; flex-wrap:wrap; }
+  .stat-item strong { display:block; font-family:'Fraunces'; font-size:2rem; color:var(--amber); }
+  .stat-item span { font-size:0.8rem; color:var(--text-dim); }
+
+  /* TESTIMONIALS */
+  .testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .testi { background:var(--panel-2); border:1px solid var(--line); padding:28px; border-radius:3px; }
+  .testi .stars { color:var(--amber); margin-bottom:14px; letter-spacing:2px; }
+  .testi p { font-style:italic; font-family:'Fraunces'; font-size:1.02rem; margin-bottom:18px; }
+  .testi .who { display:flex; align-items:center; gap:10px; font-size:0.84rem; color:var(--text-dim); }
+  .av-sm { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg, var(--amber), var(--panel-3)); flex-shrink:0; }
+
+  footer { border-top:1px solid var(--line); padding:50px 0 calc(32px + env(safe-area-inset-bottom,0px)); background:var(--panel); }
+  .foot-grid { display:grid; grid-template-columns:1.3fr 0.9fr 0.9fr 1.1fr 1.1fr; gap:30px; margin-bottom:36px; }
+  footer h4 { font-size:0.76rem; letter-spacing:0.06em; color:var(--text-dim); text-transform:uppercase; margin-bottom:14px; font-weight:700; }
+  footer p.small { color:var(--text-dim); font-size:0.85rem; max-width:30ch; margin-bottom:14px; }
+  footer ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  footer ul a { color:var(--text-dim); font-size:0.88rem; }
+  footer ul a:hover { color:var(--amber); }
+  .foot-social { display:flex; gap:10px; }
+  .foot-social a { width:32px; height:32px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .foot-social a:hover { border-color:var(--amber); color:var(--amber); }
+  .foot-bottom { border-top:1px solid var(--line); padding-top:22px; display:flex; justify-content:space-between; color:var(--text-dim); font-size:0.8rem; flex-wrap:wrap; gap:10px; }
+
+  .fab { position:fixed; right:20px; bottom:calc(20px + env(safe-area-inset-bottom,0px)); z-index:55; background:var(--amber); color:#15110f; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,0.5); transition:transform .2s ease; }
+  .fab:hover { transform:scale(1.08); }
+
+  @media (max-width:980px) {
+    .nav-links, .nav-cta { display:none; }
+    .burger { display:block; }
+    .hero-grid { grid-template-columns:1fr; min-height:0; }
+    .hero-text { padding-right:0; padding-bottom:30px; }
+    .hero-photo { aspect-ratio:16/10; }
+    .booking-grid { grid-template-columns:1fr 1fr; }
+    .trust .wrap { grid-template-columns:repeat(2,1fr); }
+    .svc-grid, .testi-grid { grid-template-columns:1fr 1fr; }
+    .about-grid { grid-template-columns:1fr; }
+    .about-visual { max-width:360px; margin:0 auto; }
+    .foot-grid { grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:620px) {
+    .booking { padding:24px; }
+    .booking-grid { grid-template-columns:1fr; }
+    .svc-grid, .testi-grid, .foot-grid { grid-template-columns:1fr; }
+    .trust .wrap { grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .svc-card { transition:none; opacity:1; transform:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#" class="logo-mark">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none"><path d="M6 8l20 16M26 8L6 24" stroke="var(--amber)" stroke-width="2.4" stroke-linecap="round"/><circle cx="6" cy="8" r="2.6" fill="var(--amber)"/><circle cx="6" cy="24" r="2.6" fill="var(--amber)"/></svg>
+      <div class="logo-text">BARBEARIA<span>EXCLUSIVA</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#inicio">Início</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#barbeiros">Barbeiros</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <a class="nav-cta" href="https://wa.me/5500000000000" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Agendar
+    </a>
+    <div class="burger" id="burger"><span></span><span></span><span></span></div>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <div class="kicker">Estilo · Confiança · Atitude</div>
+      <h1>Seu estilo,<br><em>nossa paixão.</em></h1>
+      <p class="lead">Agende seu horário e viva a melhor experiência de barbearia da cidade.</p>
+      <a class="btn btn-primary" href="#agendar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Agendar agora
+      </a>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-duo">
+        <img src="https://images.pexels.com/photos/7697642/pexels-photo-7697642.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Barbeiro atendendo cliente na barbearia" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="booking-wrap" id="agendar">
+  <div class="wrap">
+    <div class="booking">
+      <div class="booking-top">
+        <h2>Agende seu horário</h2>
+        <div class="booking-meta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <div><strong>Atendimento</strong>Seg – Sáb: 09h às 20h</div>
+        </div>
+      </div>
+      <div class="booking-steps">
+        <div class="bstep active"><span class="n">1</span><div><p>Serviço</p><span>Escolha o serviço</span></div></div>
+        <div class="bstep"><span class="n">2</span><div><p>Barbeiro</p><span>Escolha o profissional</span></div></div>
+        <div class="bstep"><span class="n">3</span><div><p>Data e hora</p><span>Selecione data e horário</span></div></div>
+        <div class="bstep"><span class="n">4</span><div><p>Confirmar</p><span>Revise e confirme</span></div></div>
+      </div>
+      <div class="booking-grid">
+        <div class="b-col">
+          <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.5 15.5M14 14.5L20 20"/></svg>Escolha o serviço</h4>
+          <button type="button" class="b-opt sel" data-bk="svc" data-label="Corte de Cabelo" data-price="R$ 50,00"><span class="name"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#15110f" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span>Corte de Cabelo</span><span class="p">R$ 50,00</span></button>
+          <button type="button" class="b-opt" data-bk="svc" data-label="Barba" data-price="R$ 40,00"><span class="name"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#15110f" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span>Barba</span><span class="p">R$ 40,00</span></button>
+          <button type="button" class="b-opt" data-bk="svc" data-label="Corte + Barba" data-price="R$ 80,00"><span class="name"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#15110f" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span>Corte + Barba</span><span class="p">R$ 80,00</span></button>
+          <button type="button" class="b-opt" data-bk="svc" data-label="Sobrancelha" data-price="R$ 20,00"><span class="name"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#15110f" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span>Sobrancelha</span><span class="p">R$ 20,00</span></button>
+        </div>
+        <div class="b-col">
+          <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>Escolha o barbeiro</h4>
+          <button type="button" class="b-opt sel" data-bk="prof" data-label="Lucas Ferreira"><span class="name"><span class="av"></span>Lucas Ferreira</span><span class="rating">★ 4.9</span></button>
+          <button type="button" class="b-opt" data-bk="prof" data-label="Gabriel Santos"><span class="name"><span class="av"></span>Gabriel Santos</span><span class="rating">★ 4.8</span></button>
+          <button type="button" class="b-opt" data-bk="prof" data-label="Rafael Lima"><span class="name"><span class="av"></span>Rafael Lima</span><span class="rating">★ 4.9</span></button>
+          <button type="button" class="b-opt" data-bk="prof" data-label="Matheus Alves"><span class="name"><span class="av"></span>Matheus Alves</span><span class="rating">★ 4.7</span></button>
+        </div>
+        <div class="b-col">
+          <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Escolha a data</h4>
+          <div class="cal-head"><button type="button" id="calPrev">‹</button><span id="calMonth">Maio 2026</span><button type="button" id="calNext">›</button></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="time-label">Horário</div>
+          <div class="btimes">
+            <button type="button" class="btime" data-bk="time" data-label="09:00">09:00</button>
+            <button type="button" class="btime" data-bk="time" data-label="11:00">11:00</button>
+            <button type="button" class="btime sel" data-bk="time" data-label="16:00">16:00</button>
+          </div>
+        </div>
+        <div class="b-col">
+          <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M5 7h14M5 17h14"/></svg>Resumo</h4>
+          <div class="summary-box">
+            <div class="sum-row"><span>Serviço</span><span id="sumSvc">Corte de Cabelo</span></div>
+            <div class="sum-row"><span>Barbeiro</span><span id="sumProf">Lucas Ferreira</span></div>
+            <div class="sum-row"><span>Horário</span><span id="sumTime">16:00</span></div>
+            <div class="sum-row total"><span>Total</span><span id="sumPrice">R$ 50,00</span></div>
+          </div>
+          <a class="btn btn-primary booking-confirm" id="bkConfirm" href="https://wa.me/5500000000000" target="_blank" rel="noopener">Confirmar agendamento</a>
+          <div class="secure-note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Seus dados estão seguros conosco</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="trust">
+  <div class="wrap">
+    <div class="trust-item"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><div><strong>Agendamento rápido</strong><span>Marque seu horário em poucos cliques</span></div></div>
+    <div class="trust-item"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 7h7l-5.5 4.2L18.5 21 12 16.5 5.5 21l2-7.8L2 9h7z"/></svg><div><strong>Profissionais qualificados</strong><span>Barbeiros experientes pra resultado impecável</span></div></div>
+    <div class="trust-item"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 21V10a5 5 0 0110 0v11M4 21h16"/></svg><div><strong>Ambiente premium</strong><span>Conforto e qualidade que você merece</span></div></div>
+    <div class="trust-item"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg><div><strong>Pagamento facilitado</strong><span>Diversas formas de pagamento</span></div></div>
+  </div>
+</div>
+
+<section class="section" id="servicos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Nossos serviços</div>
+      <h2>Feito sob medida pro seu estilo</h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card" data-reveal>
+        <div style="aspect-ratio:4/3;overflow:hidden;margin:-30px -30px 20px"><img src="https://images.pexels.com/photos/7697212/pexels-photo-7697212.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Corte de cabelo" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.5 15.5M14 14.5L20 20"/></svg></div>
+        <h3>Corte de Cabelo</h3>
+        <p>Degradê, social ou clássico, com acabamento na régua.</p>
+        <span class="p">R$ 50,00</span>
+      </div>
+      <div class="svc-card" data-reveal>
+        <div style="aspect-ratio:4/3;overflow:hidden;margin:-30px -30px 20px"><img src="https://images.pexels.com/photos/7697215/pexels-photo-7697215.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Barba feita na navalha" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3c0 5-4 6-4 11a8 8 0 0016 0c0-5-4-6-4-11"/></svg></div>
+        <h3>Barba</h3>
+        <p>Toalha quente, navalha e hidratação pra fechar com estilo.</p>
+        <span class="p">R$ 40,00</span>
+      </div>
+      <div class="svc-card" data-reveal>
+        <div style="aspect-ratio:4/3;overflow:hidden;margin:-30px -30px 20px"><img src="https://images.pexels.com/photos/7697233/pexels-photo-7697233.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Corte e barba combo" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 14h16"/></svg></div>
+        <h3>Corte + Barba</h3>
+        <p>O combo completo com desconto especial.</p>
+        <span class="p">R$ 80,00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="about-band" id="sobre">
+  <div class="section wrap about-grid">
+    <div class="about-visual">
+      <div class="photo-duo" style="position:absolute;inset:0">
+        <img src="https://images.pexels.com/photos/7697661/pexels-photo-7697661.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Equipe de barbeiros trabalhando" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+    </div>
+    <div>
+      <div class="kicker">Nossa história</div>
+      <h2>Mais que um corte, uma experiência</h2>
+      <p class="lead" style="color:var(--text-dim); margin-top:18px; max-width:48ch">A Barbearia Exclusiva nasceu da paixão por um ofício bem feito. Reunimos profissionais que tratam cada cliente como único, num espaço pensado pra você relaxar de verdade.</p>
+      <div class="stat-row">
+        <div class="stat-item"><strong>10+</strong><span>Anos de experiência</span></div>
+        <div class="stat-item"><strong>6.200+</strong><span>Clientes satisfeitos</span></div>
+        <div class="stat-item"><strong>4.9</strong><span>Avaliação média</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Depoimentos</div>
+      <h2>O que nossos clientes dizem</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi"><div class="stars">★★★★★</div><p>"Agendamento mais fácil que eu já usei. Chegava na hora marcada e era atendido na hora."</p><div class="who"><div class="av-sm"></div>Thiago M.</div></div>
+      <div class="testi"><div class="stars">★★★★★</div><p>"O Lucas é fera no degradê. Ambiente impecável, atendimento de primeira."</p><div class="who"><div class="av-sm"></div>André R.</div></div>
+      <div class="testi"><div class="stars">★★★★★</div><p>"Virei cliente fixo. O combo corte + barba vale muito a pena."</p><div class="who"><div class="av-sm"></div>Felipe S.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contato">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo-mark" style="margin-bottom:14px">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><path d="M6 8l20 16M26 8L6 24" stroke="var(--amber)" stroke-width="2.4" stroke-linecap="round"/><circle cx="6" cy="8" r="2.6" fill="var(--amber)"/><circle cx="6" cy="24" r="2.6" fill="var(--amber)"/></svg>
+          <div class="logo-text">BARBEARIA<span>EXCLUSIVA</span></div>
+        </div>
+        <p class="small">Mais que um corte, uma experiência. Estilo, atitude e qualidade em cada detalhe.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9h3V5h-3a4 4 0 00-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9a1 1 0 011-1z"/></svg></a>
+          <a href="https://wa.me/5500000000000" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.9-1.3A10 10 0 1012 2z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Navegação</h4><ul><li><a href="#inicio">Início</a></li><li><a href="#servicos">Serviços</a></li><li><a href="#sobre">Sobre</a></li><li><a href="#contato">Contato</a></li></ul></div>
+      <div><h4>Serviços</h4><ul><li><a href="#servicos">Corte de Cabelo</a></li><li><a href="#servicos">Barba</a></li><li><a href="#servicos">Corte + Barba</a></li><li><a href="#servicos">Outros serviços</a></li></ul></div>
+      <div><h4>Contato</h4><ul><li><a href="tel:+551199999999">(11) 99999-9999</a></li><li><a href="#">contato@barbearia.com.br</a></li><li><a href="#">Rua das Estrelas, 123 — São Paulo/SP</a></li></ul></div>
+      <div><h4>Horário de funcionamento</h4><ul><li>Segunda a sexta — 09h às 20h</li><li>Sábado — 09h às 20h</li><li>Domingo — Fechado</li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© Barbearia Exclusiva — modelo de exemplo. Todos os direitos reservados.</span>
+      <span>CNPJ 00.000.000/0001-00</span>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/5500000000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.82L2 22l5.4-1.42a9.9 9.9 0 004.64 1.18h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.11h-.01a8.2 8.2 0 01-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.37c0-4.53 3.69-8.22 8.24-8.22 2.2 0 4.27.86 5.82 2.42a8.17 8.17 0 012.41 5.81c0 4.54-3.69 8.22-8.23 8.22zm4.51-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.04-.38-1.98-1.21-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.12.17 1.74 2.66 4.22 3.73.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+</a>
+
+<script>
+  const burger = document.getElementById('burger');
+  const navLinks = document.querySelector('.nav-links');
+  burger?.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.cssText = open ? 'display:none;' : 'display:flex;position:fixed;top:78px;left:0;right:0;background:var(--panel);flex-direction:column;padding:20px 24px;border-bottom:1px solid var(--line);z-index:55;gap:16px;';
+  });
+
+  // Reveal
+  const io = new IntersectionObserver((entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold:0.15 });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+  // Calendar
+  const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  let calDate = new Date(2026, 4, 1);
+  let selDay = 22;
+  const dows = ['D','S','T','Q','Q','S','S'];
+  function renderCal() {
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+    dows.forEach(d => { const el = document.createElement('div'); el.className='dow'; el.textContent=d; grid.appendChild(el); });
+    document.getElementById('calMonth').textContent = `${months[calDate.getMonth()]} ${calDate.getFullYear()}`;
+    const firstDow = new Date(calDate.getFullYear(), calDate.getMonth(), 1).getDay();
+    const daysInMonth = new Date(calDate.getFullYear(), calDate.getMonth()+1, 0).getDate();
+    for (let i=0;i<firstDow;i++){ const el=document.createElement('div'); grid.appendChild(el); }
+    for (let d=1; d<=daysInMonth; d++){
+      const el = document.createElement('div');
+      el.className = 'cal-day' + (d===selDay ? ' sel':'');
+      el.textContent = d;
+      el.addEventListener('click', () => { selDay = d; renderCal(); updateBooking(); });
+      grid.appendChild(el);
+    }
+  }
+  document.getElementById('calPrev').addEventListener('click', () => { calDate.setMonth(calDate.getMonth()-1); selDay=1; renderCal(); updateBooking(); });
+  document.getElementById('calNext').addEventListener('click', () => { calDate.setMonth(calDate.getMonth()+1); selDay=1; renderCal(); updateBooking(); });
+  renderCal();
+
+  // Booking state
+  const bkState = { svc:'Corte de Cabelo', price:'R$ 50,00', prof:'Lucas Ferreira', time:'16:00' };
+  function updateBooking() {
+    document.getElementById('sumSvc').textContent = bkState.svc;
+    document.getElementById('sumProf').textContent = bkState.prof;
+    document.getElementById('sumTime').textContent = `${selDay} de ${months[calDate.getMonth()]} às ${bkState.time}`;
+    document.getElementById('sumPrice').textContent = bkState.price;
+    const msg = encodeURIComponent(`Olá! Quero agendar: ${bkState.svc} com ${bkState.prof}, dia ${selDay} de ${months[calDate.getMonth()]} às ${bkState.time}.`);
+    document.getElementById('bkConfirm').href = `https://wa.me/5500000000000?text=${msg}`;
+  }
+  document.querySelectorAll('.b-opt[data-bk], .btime[data-bk]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.bk;
+      document.querySelectorAll(`[data-bk="${group}"]`).forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      if (group==='svc'){ bkState.svc=btn.dataset.label; bkState.price=btn.dataset.price; }
+      if (group==='prof') bkState.prof=btn.dataset.label;
+      if (group==='time') bkState.time=btn.dataset.label;
+      updateBooking();
+    });
+  });
+  updateBooking();
+</script>
+
+</body>
+</html>
